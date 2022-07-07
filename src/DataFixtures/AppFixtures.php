@@ -26,8 +26,8 @@ class AppFixtures extends Fixture
             $blog->setShortDesc('Lorem ipsum description');
             $blog->setAuthor('Buda');
             $blog->setCreatedAt($randomDate);
+            $manager->persist($blog);
         }
-        $manager->persist($blog);
         $manager->flush();
     }
 }
