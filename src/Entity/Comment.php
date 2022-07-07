@@ -24,7 +24,7 @@ class Comment
     #[ORM\Column(type: 'string', length: 255)]
     private $author;
 
-    #[ORM\ManyToOne(targetEntity: Post::class, inversedBy: 'Comment')]
+    #[ORM\ManyToOne(targetEntity: Post::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private $post;
 
