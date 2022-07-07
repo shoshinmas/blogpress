@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        .align-center {
+            margin: 0 auto;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-lg-8 align-center">
+        <h1>Create new blog entry.</h1>
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {{ form_start(form) }}
+        <div class="form-group">
+            Author {{ form_widget(form.author) }}
+        </div>
+        <div class="form-group">
+           Title {{ form_widget(form.title) }}
+        </div>
+        <div class="form-group">
+           Description {{ form_widget(form.shortDesc) }}
+        </div>
+        <div class="form-group">
+          Image:  {{ form_widget(form.imageFile) }}
+        </div>
+        <div class="form-group">
+         Post text:   {{ form_widget(form.body) }}
+        </div>
+
+        <input type="submit" class="btn btn-primary"/>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

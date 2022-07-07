@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        .align-center {
+            margin: 0 auto;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-lg-8 align-center">
+            <h1>Posts</h1>
+            <table class="table table-striped ">
+                <thead class="thead-dark">
+
+                <tr>
+                    <th>Title</th>
+                    <th>Short description</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for post in posts %}
+                    <tr>
+                        <td>{{ post.title }}</td>
+                        <td>{{ post.shortDesc }}</td>
+                        <td>
+                            <button class="btn btn-primary">Edit</button>
+                            <button class="btn btn-primary">Delete</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8  align-center">
+            <a href="{{ path('app_admin_post_create') }}" class="btn btn-primary">Create blog</a>
+        </div>
+    </div>
+
+{% endblock %}

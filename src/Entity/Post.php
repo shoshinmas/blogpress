@@ -150,4 +150,11 @@ class Post
 
         return $this;
     }
+
+    public function prePersist()
+    {
+        if (!$this->getCreatedAt()) {
+            $this->setCreatedAt(new (date_create_immutable()));
+        }
+    }
 }
