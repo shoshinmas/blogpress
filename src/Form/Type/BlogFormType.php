@@ -19,10 +19,10 @@ class BlogFormType extends AbstractType
         $builder->add('title', TextType::class, ['attr' => ['class' => 'form-control']]);
         $builder->add('shortDesc', TextType::class, ['attr' => ['class' => 'form-control']]);
         $builder->add('body', TextType::class, ['attr' => ['class' => 'form-control']]);
-        $builder->add('createdAt', \DateTimeImmutable::class, ['attr' => ['class' => 'form-control', 'visible' => 'hidden']]);
         $builder->add('imageFile', FileType::class, [
             'attr'     => ['class' => 'form-control',],
             'mapped' => false,
+            'required' => false
         ]);
     }
 

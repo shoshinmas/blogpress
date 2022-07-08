@@ -25,6 +25,7 @@ class AppFixtures extends Fixture
               Vivamus tristique felis leo, vitae laoreet sapien eleifend vitae. Etiam varius sollicitudin tincidunt');
             $blog->setShortDesc('Lorem ipsum description');
             $blog->setAuthor('Buda');
+            $blog->setImage('https://via.placeholder.com/200x150');
             $blog->setCreatedAt($randomDate);
             $manager->persist($blog);
         }
