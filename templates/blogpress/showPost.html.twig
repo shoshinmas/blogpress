@@ -10,8 +10,8 @@
 
 <div class="example-wrapper">
     <h1>Hello ! ✅</h1>
-    <a href="{{ path('app_admin_dashboard') }}">Admin</a><br><br>
-    Posts:
+
+    This friendly message is coming from:
     {%  for post in posts %}
     <p>{{ post.title }}</p>
         <p>{{ post.author }}</p>
@@ -21,13 +21,7 @@
         <hr>
         <div class="row">
             <div class="col-lg-8  align-center">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-8  align-center">
-                {% for comment in post.comment %}
-                    <p>{{ comment.body }}</p>
-                {% endfor %}
+
             </div>
         </div>
         <hr>

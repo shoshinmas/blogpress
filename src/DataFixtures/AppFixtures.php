@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use App\Entity\Post;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -16,19 +17,21 @@ class AppFixtures extends Fixture
         $randomDate = (date_create_immutable(date('Y-m-d')));
         for ($i = 0; $i < 4; ++$i) {
             $blog = new Post();
-            $blog->setTitle('Lorem ipsum');
-            $blog->setBody('Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              Proin sodales, arcu non commodo vulputate, neque lectus luctus metus, 
-              ac hendrerit mi erat eu ante. Nullam blandit arcu erat,
-              vitae pretium neque suscipit vitae. 
-              Pellentesque sit amet lacus in metus placerat posuere. Aliquam hendrerit risus elit, non commodo nulla cursus id. 
-              Vivamus tristique felis leo, vitae laoreet sapien eleifend vitae. Etiam varius sollicitudin tincidunt');
-            $blog->setShortDesc('Lorem ipsum description');
-            $blog->setAuthor('Buda');
+            $blog->setTitle('Post title'. $i);
+            $blog->setBody('Post body'. $i);
+            $blog->setShortDesc('Post short description'. $i);
+            $blog->setAuthor('Buda'. $i);
             $blog->setImage('NUP-177041-0001-0-62c6f3441d509.jpg');
             $blog->setCreatedAt($randomDate);
             $manager->persist($blog);
+            $comment = new Comment();
+            $comment->setPost($blog);
+            $comment->setTitle('Comment title'.$i);
+            $comment->setBody('Comment body'.$i);
+            $comment->setAuthor('Buda'. $i);
+            $comment->setCreatedAt($randomDate);
+            $manager->persist($comment);
+            }
+            $manager->flush();
         }
-        $manager->flush();
     }
-}

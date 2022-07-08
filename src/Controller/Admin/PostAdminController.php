@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
-use App\Form\Type\BlogFormType;
+use App\Form\Type\BlogPostFormType;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -36,18 +36,21 @@ class PostAdminController extends AbstractController
     }
 
     #[Route('/admin/create', name: 'app_admin_post_create')]
-    public function createPost(Post $post, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function createPost(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        $form = $this->createForm(BlogFormType::class, new Post());
+        $form = $this->createForm(BlogPostFormType::class, new Post());
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $post      = $form->getData();
             $imageFile = $form->get('imageFile')->getData();
+            //$post->setAuthor($user);
+            $post->setCreatedAt(date_create_immutable());
             $this->imageHandler($imageFile, $slugger, $post, $entityManager);
             $entityManager->persist($post);
             $entityManager->flush();
-            $this->addFlash('success', 'Post was edited!');
+            $this->addFlash('success', 'Post was created!');
+            return $this->redirectToRoute('app_admin_dashboard');
         }
 
         return $this->render('blogpress/admin/create.html.twig', [
@@ -65,12 +68,13 @@ class PostAdminController extends AbstractController
     public function editPost(Post $post, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $post->setImage((string)new File(sprintf('%s/%s', $this->getParameter('image_directory'), $post->getImage())));
-        $form = $this->createForm(BlogFormType::class, $post);
+        $form = $this->createForm(BlogPostFormType::class, $post);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
             $imageFile = $form->get('imageFile')->getData();
+            //$post->setAuthor($user);
             $post->setCreatedAt(date_create_immutable());
             $this->imageHandler($imageFile, $slugger, $post, $entityManager);
             $entityManager->persist($post);
