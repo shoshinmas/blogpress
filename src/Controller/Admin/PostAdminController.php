@@ -38,14 +38,15 @@ class PostAdminController extends AbstractController
     #[Route('/admin/create', name: 'app_admin_post_create')]
     public function createPost(Post $post, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        $post->setImage(new File(sprintf('%s/%s', $this->getParameter('image_directory'), $post->getImage())));
-        $form = $this->createForm(BlogFormType::class, $post);
+        $form = $this->createForm(BlogFormType::class, new Post());
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $post      = $form->getData();
             $imageFile = $form->get('imageFile')->getData();
             $this->imageHandler($imageFile, $slugger, $post, $entityManager);
+            $entityManager->persist($post);
+            $entityManager->flush();
             $this->addFlash('success', 'Post was edited!');
         }
 
@@ -61,16 +62,20 @@ class PostAdminController extends AbstractController
      * @return Response
      */
     #[Route('/admin/edit/{id}', name: 'app_admin_post_edit')]
-    public function editPost(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function editPost(Post $post, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        $form = $this->createForm(BlogFormType::class, new Post());
+        $post->setImage((string)new File(sprintf('%s/%s', $this->getParameter('image_directory'), $post->getImage())));
+        $form = $this->createForm(BlogFormType::class, $post);
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
             $imageFile = $form->get('imageFile')->getData();
             $post->setCreatedAt(date_create_immutable());
             $this->imageHandler($imageFile, $slugger, $post, $entityManager);
-            $this->addFlash('success', 'Post was created!');
+            $entityManager->persist($post);
+            $entityManager->flush();
+            $this->addFlash('success', 'Blog was edited!');
             return $this->redirectToRoute('app_admin_dashboard');
         }
         return $this->render('blogpress/admin/create.html.twig', [
@@ -111,8 +116,5 @@ class PostAdminController extends AbstractController
             }
             $post->setImage($newFilename);
         }
-
-        $entityManager->persist($post);
-        $entityManager->flush();
     }
 }

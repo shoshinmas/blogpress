@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -31,6 +32,13 @@ class Post
     #[ORM\Column(type: 'text')]
     private string $body;
 
+    /**
+     * @Assert\Image()
+     *     minWidth = 200,
+     *     maxWidth = 400,
+     *     minHeight = 200,
+     *     maxHeight = 400
+     **/
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private string $image;
 
@@ -103,7 +111,7 @@ class Post
         return $this->image;
     }
 
-    public function setImage(?File $image): self
+    public function setImage(string $image): self
     {
         $this->image = $image;
 
