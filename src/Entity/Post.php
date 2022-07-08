@@ -50,12 +50,20 @@ class Post
 
     public function __construct()
     {
-        $this->Comment = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     public function getAuthor(): ?string

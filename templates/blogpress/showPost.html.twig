@@ -11,20 +11,9 @@
 <div class="example-wrapper">
     <h1>Hello ! ✅</h1>
 
-    This friendly message is coming from:
-    {%  for post in posts %}
-    <p>{{ post.title }}</p>
-        <p>{{ post.author }}</p>
-        <p><img src="{{ post.image }}" width="400" height="400" alt="{{ post.title }}"></p>
-    <p>{{ post.shortdesc }}</p>
-    <p>{{ post.body }}</p><br>
-        <hr>
-        <div class="row">
-            <div class="col-lg-8  align-center">
+  add comment:
 
-            </div>
-        </div>
-        <hr>
-    {% endfor %}
+    {{ form_start(comment_form) }}
+    {{ form_end(comment_form) }}
 </div>
 {% endblock %}
