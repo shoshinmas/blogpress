@@ -34,7 +34,7 @@ class BlogpressController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/{id}', name: 'app_user_post_comment')]
+    #[Route(path: '/post/{id}', name: 'app_user_post_comment')]
     public function placeComment(Post $post, EntityManagerInterface $entityManager, Request $request): Response
     {
         $form = $this->createForm(CommentFormType::class, new Comment());

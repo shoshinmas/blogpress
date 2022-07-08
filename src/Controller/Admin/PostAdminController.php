@@ -8,6 +8,7 @@ use App\Entity\Post;
 use App\Form\Type\BlogPostFormType;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -25,7 +26,7 @@ class PostAdminController extends AbstractController
     )
     {
     }
-
+    #[IsGranted('IS_AUTHENTICATED')]
     #[Route('/admin', name: 'app_admin_dashboard')]
     public function index(): Response
     {
@@ -34,7 +35,7 @@ class PostAdminController extends AbstractController
         ]);
 
     }
-
+    #[IsGranted('IS_AUTHENTICATED')]
     #[Route('/admin/create', name: 'app_admin_post_create')]
     public function createPost(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
@@ -44,7 +45,7 @@ class PostAdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $post      = $form->getData();
             $imageFile = $form->get('imageFile')->getData();
-            //$post->setAuthor($user);
+            $post->setAuthor($this->getUser());
             $post->setCreatedAt(date_create_immutable());
             $this->imageHandler($imageFile, $slugger, $post, $entityManager);
             $entityManager->persist($post);
@@ -64,6 +65,7 @@ class PostAdminController extends AbstractController
      * @param SluggerInterface $slugger
      * @return Response
      */
+    #[IsGranted('IS_AUTHENTICATED')]
     #[Route('/admin/edit/{id}', name: 'app_admin_post_edit')]
     public function editPost(Post $post, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
@@ -74,7 +76,7 @@ class PostAdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
             $imageFile = $form->get('imageFile')->getData();
-            //$post->setAuthor($user);
+            $post->setAuthor($this->getUser());
             $post->setCreatedAt(date_create_immutable());
             $this->imageHandler($imageFile, $slugger, $post, $entityManager);
             $entityManager->persist($post);
@@ -86,6 +88,8 @@ class PostAdminController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[IsGranted('IS_AUTHENTICATED')]
     #[Route('/admin/delete/{id}', name: 'app_admin_post_delete')]
     public function deletePost(Post $post, EntityManagerInterface $em): RedirectResponse
     {
