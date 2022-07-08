@@ -16,7 +16,6 @@ class BlogPostFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('author', TextType::class, ['attr' => ['class' => 'form-control']]);
         $builder->add('title', TextType::class, ['attr' => ['class' => 'form-control']]);
         $builder->add('shortDesc', TextType::class, ['attr' => ['class' => 'form-control']]);
         $builder->add('body', TextareaType::class, ['attr' => ['class' => 'form-control']]);

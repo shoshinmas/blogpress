@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class BlogpressController extends AbstractController
 {
@@ -47,8 +46,9 @@ class BlogpressController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('app_blogpress');
         }
+
         return $this->render('blogpress/showPost.html.twig', [
             'comment_form' => $form->createView()
         ]);
-}
+    }
 }
