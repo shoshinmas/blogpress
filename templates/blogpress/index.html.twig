@@ -18,7 +18,7 @@
     {%  for post in posts %}
     <p>{{ post.title }}</p>
         <p>{{ post.author }}</p>
-        <p><img src="{{ post.image }}" width="400" height="400" alt="{{ post.title }}"></p>
+        <p><img src="images/{{ post.image }}" width="400" height="400" alt="{{ post.title }}"></p>
     <p>{{ post.shortdesc }}</p>
     <p>{{ post.body }}</p><br>
         <hr>

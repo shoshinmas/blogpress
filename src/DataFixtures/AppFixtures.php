@@ -24,6 +24,7 @@ class AppFixtures extends Fixture
             $blog->setImage('NUP-177041-0001-0-62c6f3441d509.jpg');
             $blog->setCreatedAt($randomDate);
             $manager->persist($blog);
+
             $comment = new Comment();
             $comment->setPost($blog);
             $comment->setTitle('Comment title'.$i);
@@ -31,7 +32,8 @@ class AppFixtures extends Fixture
             $comment->setAuthor('Buda'. $i);
             $comment->setCreatedAt($randomDate);
             $manager->persist($comment);
-            }
+                        }
+
             $manager->flush();
         }
     }
